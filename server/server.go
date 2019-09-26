@@ -18,7 +18,7 @@ func StartServer(model string) (err error) {
 	gin.SetMode(serverModel)
 	r := routers.InitRouters()
 	host := fmt.Sprintf("%s:%s", configs.ServerConf.Host, configs.ServerConf.Port)
-	fmt.Printf("server run on  %s......", host)
+	fmt.Printf("server run on  %s.......", host)
 	err = r.Run(host)
 	return err
 }
