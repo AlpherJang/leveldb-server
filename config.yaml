@@ -1,2 +1,3 @@
 modal: dabug
 dbpath: ./tmp/data
+port: 9650
