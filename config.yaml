@@ -1,2 +1,2 @@
-appname: test
-dbpath: D:/tools/leveldb-server/db
+modal: dabug
+dbpath: ./tmp/data
