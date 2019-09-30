@@ -2,9 +2,9 @@ package configs
 
 import (
 	"fmt"
+	"leveldb-server/database"
 
 	"github.com/jinzhu/configor"
-	"github.com/syndtr/goleveldb/leveldb"
 )
 
 type Config struct {
@@ -16,7 +16,7 @@ type Config struct {
 }
 
 var ServerConf Config
-var Db *leveldb.DB
+var Db *database.LevelDB
 
 func InitConfig(configPath string) (err error) {
 	ServerConf = Config{}
@@ -25,7 +25,8 @@ func InitConfig(configPath string) (err error) {
 		fmt.Println("there is some thing wrong when init server config")
 		return err
 	}
-	Db, err = leveldb.OpenFile(ServerConf.DbPath, nil)
+	Db = database.NewLevelDB(ServerConf.DbPath)
+	err = Db.OpenDataBase(nil)
 	if err != nil {
 		fmt.Println("there is some thing wrong when open db file")
 		return err

@@ -1,0 +1,47 @@
+node {
+    def IMAGE_NAME="evanszhang/leveldb-server"
+    def IMAGE_VERSION="1.1"
+    def DOCKER_FILE="./Dockerfile"
+    def COMMIT_ID =""
+    def USE_COMMITID=true
+    try{
+        stage('GIT') {
+                git url: 'git://github.com/AlpherJang/leveldb-server.git', branch: 'master'
+                COMMIT_ID=sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+                echo "GIT has done"
+        }
+        stage('SET ENV'){
+            if(USE_COMMITID){
+                IMAGE_VERSION=COMMIT_ID;
+            }
+            echo "SET ENV has done"
+        }
+        stage('BUILD'){
+            docker.image("golang").inside{
+                sh "export GOPROXY=https://goproxy.io"
+                sh "go build -v"
+            }
+        }
+        stage('DOCKER BUILD') {
+            sh "docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} -f ${DOCKER_FILE} ."
+            echo "DOCKER BUILD has done"
+        }
+        stage('DOCKER PUBLISH') {
+        withCredentials([usernamePassword(credentialsId: 'docker-register', passwordVariable: 'dockerPassword', usernameVariable: 'dockerUser')]) {
+            sh "docker login -u ${dockerUser} -p ${dockerPassword}"
+            sh "docker push ${IMAGE_NAME}:${IMAGE_VERSION}"
+        }
+        }
+        stage("SHOW"){
+            echo "Every thing all has done"
+        }
+    }
+    catch(Exception e){
+        echo "FAILED!!!!!!!"
+    }
+    finally{
+        echo "Clean workspace now......"
+        deleteDir()
+    }
+
+}
