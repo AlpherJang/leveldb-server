@@ -23,6 +23,10 @@ func (l *LevelDB) OpenDataBase(o *opt.Options) error {
 	return nil
 }
 
+func (l *LevelDB) PutOne(key string, value []byte) error {
+	return l.db.Put([]byte(key), value, nil)
+}
+
 func (l *LevelDB) Get(key string) ([]byte, error) {
 	return l.db.Get([]byte(key), nil)
 }

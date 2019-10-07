@@ -2,6 +2,7 @@ package configs
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"leveldb-server/database"
 
 	"github.com/jinzhu/configor"
@@ -32,4 +33,8 @@ func InitConfig(configPath string) (err error) {
 		return err
 	}
 	return nil
+}
+
+func BuildResult(code int, msg string, data interface{}) gin.H {
+	return gin.H{"code": code, "msg": msg, "data": data}
 }

@@ -40,7 +40,7 @@ func BuildRouter(engine *gin.RouterGroup, item RouterItem, path string) {
 }
 
 func getRoutersSlice() []RouterInterface {
-	return []RouterInterface{NewJobRouters()}
+	return []RouterInterface{NewWriterRouters(), NewReaderRouters()}
 }
 
 func GetRouterGroup(routers RouterInterface, r *gin.Engine) {
