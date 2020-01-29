@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/opt"
 )
@@ -29,4 +30,9 @@ func (l *LevelDB) PutOne(key string, value []byte) error {
 
 func (l *LevelDB) Get(key string) ([]byte, error) {
 	return l.db.Get([]byte(key), nil)
+}
+
+func (l *LevelDB) RemoveOne(key string) error {
+	var err error
+	return err
 }
