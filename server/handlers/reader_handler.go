@@ -12,6 +12,16 @@ type ReadOneRes struct {
 	Key string `uri:"key" binding:"required"`
 }
 
+// ReadOne will return one record back
+// @Summary ReadOne
+// @Accept json
+// @Tags Read
+// @Security Bearer
+// @Product json
+// @Param key path string true "key"
+// @Resource Read
+// @Router /v1/read/readOne/{key} [get]
+// @Success 200
 func (h ReaderHandler) ReadOne(c *gin.Context) {
 	var res ReadOneRes
 	if err := c.ShouldBindUri(&res); err != nil {
